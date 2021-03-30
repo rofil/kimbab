@@ -1,0 +1,30 @@
+sonata_admin:
+    title: 'KINLITABMAS'
+    title_logo: /simpelmas.png
+    dashboard:
+        blocks:
+            - { type: sonata.admin.block.admin_list, position: left }
+#            - { position: top, type: first.block }
+
+
+    show_mosaic_button: false
+
+    security:
+        handler: app.security.handler.voter
+        role_admin: ROLE_ADMIN
+        role_super_admin: ROLE_SUPER_ADMIN
+
+    templates:
+        user_block: 'sonata/t.html.twig'
+
+    assets:
+        extra_stylesheets:
+            - custom.css
+
+
+sonata_block:
+    default_contexts: [sonata_page_bundle]
+    blocks:
+        first.block: ~
+        sonata.admin.block.admin_list:
+            contexts: [admin]

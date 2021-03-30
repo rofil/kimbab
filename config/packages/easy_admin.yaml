@@ -1,0 +1,8 @@
+easy_admin:
+    site_name: 'Kinerja'
+    entities:
+       # List the entity class name you want to manage
+       - App\Entity\Faculty
+       - App\Entity\Program
+#        - App\Entity\Category
+#        - App\Entity\User

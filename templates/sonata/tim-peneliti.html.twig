@@ -1,0 +1,10 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+    <ul>
+        {% for lecturer in object.researchLecturers %}
+            <li>{{ lecturer }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

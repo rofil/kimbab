@@ -1,0 +1,22 @@
+{% for person in people %}
+
+    {% if lecturer is defined %}
+        {% if lecturer.id == person.lecturer.id %}<strong>{% endif %}
+        {% if person.lecturer.status == 1 %}
+            <a style="color: #000;" href="{{ path('lecturer_show', {id: person.lecturer.id}) }}">{{ person.lecturer.name }}</a>{% if loop.index < people.count%}, {% endif %}
+        {% else %}
+            <a style="color: #000;" href="#">{{ person.lecturer.name }}</a>{% if loop.index < people.count%}, {% endif %}
+        {% endif %}
+        {% if lecturer.id == person.lecturer.id %}</strong>{% endif %}
+{#        {% if loop.index < people.count%}, {% endif %}#}
+    {% else %}
+        {% if person.lecturer.status == 1 %}
+            <a style="color: #000;" href="{{ path('lecturer_show', {id: person.lecturer.id}) }}">{{ person.lecturer.name }}</a>{% if loop.index < people.count%}, {% endif %}
+        {% else %}
+            <a style="color: #000;" href="#">{{ person.lecturer.name }}</a>{% if loop.index < people.count%}, {% endif %}
+        {% endif %}
+
+    {% endif %}
+
+
+{% endfor %}

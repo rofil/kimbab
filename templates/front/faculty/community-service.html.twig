@@ -1,0 +1,42 @@
+{% extends "front/faculty/show.html.twig" %}
+
+{% block content %}
+    {{ parent() }}
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title pull-left">
+                Pengabdian Masyarakat
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th width="30">#</th>
+                    <th>Judul</th>
+                    <th>Tim Dosen</th>
+                    <th>Mitra</th>
+                    <th>Tahun</th>
+                    {#        <th>Level</th>#}
+                </tr>
+                </thead>
+                <tbody>
+                {% for com in data %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td><a target="_blank" href="{{ path('object_show', {id: com.id, type: "community-service"}) }}">{{ com.title }}</a></td>
+                    <td>{% include 'front/lecturer/people-names.html.twig' with {people: com.communityServiceLecturers} %}</td>
+                    <td>
+                        {% for mitra in com.communityServicePartners %}
+                            {{ mitra.name }}
+                        {% endfor %}
+                    </td>
+                    <td>{{ com.year }}</td>
+                    {#            <td>{% include 'front/field/level.html.twig' with {level:journal.level} %}</td>#}
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

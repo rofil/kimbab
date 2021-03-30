@@ -1,0 +1,37 @@
+{% extends "front/faculty/show.html.twig" %}
+
+{% block content %}
+    {{ parent() }}
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title pull-left">
+                Produk Inovatif
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th width="30">#</th>
+                    <th>Judul</th>
+                    <th>Tahun</th>
+                    <th>Tim</th>
+                    <th>Kategori</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ao in data %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a target="_blank" href="{{ path('object_show', {id: ao.id, type: "additional-output"}) }}">{{ ao.title }}</a></td>
+                        <td>{{ ao.year }}</td>
+                        <td>{% include 'front/lecturer/people-names.html.twig' with {people: ao.additionalOutputLecturers } %}</td>
+                        <td>{{ ao.category }}</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

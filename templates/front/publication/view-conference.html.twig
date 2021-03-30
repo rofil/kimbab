@@ -1,0 +1,23 @@
+{% extends "front/publication/_view.html.twig" %}
+
+{% block title %}
+    {{ item.title }}
+{% endblock %}
+
+{% block authors %}
+    {% include 'front/lecturer/people-names.html.twig' with {people: item.conferenceLecturers} %}
+{% endblock %}
+
+{% block information %}
+    {{ item.nameOfConference }} | Tempat. {{ item.place }} | Tanggal. {{ item.conferenceDate|date("d M Y") }}
+{% endblock %}
+
+
+{% block body %}
+    <div class="abstract">
+{#        {{ item.abstract|raw }}#}
+    </div>
+
+{% endblock %}
+
+

@@ -1,0 +1,29 @@
+<div class="card-header">
+    <h3>
+        {% block title %}
+        {% endblock %}
+    </h3>
+
+
+    <div class="authors">
+        {% block authors %}
+
+        {% endblock %}
+    </div>
+    <div class="information">
+        {% block information %}
+
+        {% endblock %}
+
+{#        {{ item.number }} | Vol. {{ item.volume }} | No. {{ item.number }} | Level: {{ item.level }}#}
+    </div>
+</div>
+<div class="card-body">
+    {% block body %}
+
+    {% endblock %}
+
+    <div class="abstract">
+{#        {{ item.abstract }}#}
+    </div>
+</div>

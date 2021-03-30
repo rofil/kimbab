@@ -1,0 +1,112 @@
+# translations/messages.en.yaml
+title: Judul
+Title: Judul
+duration: Durasi
+Duration: Durasi
+level: Tingkat
+Level: Tingkat
+Delete: Hapus
+lecturer: Dosen
+numberOfStudents: Jumlah Mahasiswa
+Number Of Students: Jumlah Mahasiswa
+Number Of Alumni: Jumlah Alumni
+Number Of Staff: Jumlah Staf
+Document: Dokumen Pendukung
+Nidn: NIDN
+Nip: NIP
+Name: Nama
+Affiliation: Afiliasi
+Education: Pendidikan
+Unit: Unit
+Faculty: Fakultas
+Lecturer List: Dosen
+Number: Nomor
+Year: Tahun
+Alumni: Alumni
+Student: Mahasiswa
+Staff: Staf
+Funding: Pendanaan
+Funding Source: Sumber Pendanaan
+Abstract: Abstrak
+Pages: Halaman
+Issn: ISSN
+Classification: Klasifikasi
+Url: URL
+Volume: Vol
+Name Of Journal: Nama Jurnal
+Conference: Konferensi
+Description: Deskripsi
+Additional Output List: Daftar Produk Inovatif
+Additional Output Create: Buat Baru
+Create: Buat Baru
+Category: Kategori
+Additional Output: "Produk Inovatif"
+Type Of Participation: Jenis Partisipasi
+Name Of Conference: Nama Konferensi
+Place: Tempat
+Publisher: Penerbit
+Number Of Pages: Jumlah Halaman
+Isbn: ISBN
+Edition: Edisi
+Created At: Dibuat
+Updated At: Diubah
+admin: Admin
+Admin: Admin
+Information: Informasi
+Post: Post
+Fakultas: Fakultas
+Program: Program Studi
+Dosen: Dosen
+Lecturer: Dosen
+Configuration: Konfigurasi
+Jenis HKI: Jenis HKI
+Kategori Buku: Kategori Buku
+AdditionalOutputCategory: Kategori Produk Inovatif
+Roles: Roles
+User: Akun
+HKI: HKI
+Buku: Buku
+Pengabdian Masyarakat: Pengabdian Masyarakat
+Journal: Jurnal
+Luaran Tambahan: Luaran Lainnya
+Personel: Personel
+Document File: File Dokumen
+Order Number: No Urut
+Additional Output Lecturers: Dosen Pengusul
+Conference Date: Tanggal
+CommunityServicePartner: Mitra Pengabdian
+Business Entity: Jenis Ekonomi
+Funding Provision: Dana Pendamping
+Increase In Profit: Peningkatan Profit
+Community Service List: Pengabdian Masyarakat
+Action: Action
+Book Lecturers: Pengarang
+Uploader: Uploader
+Book List: Buku
+Penelitian: Penelitian
+Pengabdian: Pengabdian
+Conference List: Konferensi
+Conference Create: Buat Baru
+Intellectual Property List: Daftar HKI
+ConferenceOrganizer: Penyelenggara Forum
+Conference Organizer List: Penyelenggara Forum
+Held On: Tanggal Pelaksanaan
+Contract Number: Nomor Kontrak
+Contract Value: Nilai Kontrak
+EmploymentContract: Kontrak Kerja
+Book: Buku
+Community Service: Pengabdian Masyarakat
+Conference Lecturers: "Tim Dosen"
+Conference Organizer Create: Buat
+Journal Lecturers: Penulis
+Employment Contract List: Daftar Kontrak Kerja
+Research: Penelitian
+Research Lecturers: Tim Peneliti
+
+level_1: Lokal
+level_2: Nasional
+level_3: Internasional
+
+duration_1: "0-6 Bulan"
+duration_2: ">6 Bulan"
+Expertises: Kepakaran/Bidang

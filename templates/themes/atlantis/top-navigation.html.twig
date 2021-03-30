@@ -1,0 +1,76 @@
+<div class="main-header">
+    <!-- Logo Header -->
+    <div class="logo-header" data-background-color="blue2">
+        <div class="text-center">
+            <a href="{{ path('homepage') }}" class="logo" style="color: #fff">
+                <strong>KINLITABMAS</strong>
+
+                {#            <img src="{{ asset('atlantis-lite/assets/img/logo.svg') }}" alt="navbar brand" class="navbar-brand">#}
+            </a>
+        </div>
+
+        <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon">
+						<i class="icon-menu"></i>
+					</span>
+        </button>
+        <button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
+        <div class="nav-toggle">
+            <button class="btn btn-toggle sidenav-overlay-toggler">
+                <i class="icon-menu"></i>
+            </button>
+        </div>
+    </div>
+    <!-- End Logo Header -->
+
+    <!-- Navbar Header -->
+    <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
+
+        <div class="container-fluid">
+
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_main_lecturerlist') }}">Dosen</a>
+                </li>
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="#">Subjects</a>#}
+{#                </li>#}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Fakultas
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path('app_faculty_show', {id: 2}) }}">Fakultas Ekonomi Dan Bisnis</a>
+                        <a class="dropdown-item" href="{{ path('app_faculty_show', {id: 3}) }}">Fakultas Ilmu Sosial dan Politik</a>
+                        <a class="dropdown-item" href="{{ path('app_faculty_show', {id: 1}) }}">Fakultas Pertanian</a>
+                        <a class="dropdown-item" href="{{ path('app_faculty_show', {id: 4}) }}">Fakultas Kehutanan</a>
+                        <a class="dropdown-item" href="{{ path('app_faculty_show', {id: 5}) }}">Fakultas Keguruan dan Ilmu Pendidikan</a>
+                        <a class="dropdown-item" href="{{ path('app_faculty_show', {id: 6}) }}">Fakultas Perikanan dan Ilmu Kelautan</a>
+                        <a class="dropdown-item" href="{{ path('app_faculty_show', {id: 8}) }}">Fakultas Matematika dan Ilmu Pengetahuan Alam</a>
+                        <a class="dropdown-item" href="{{ path('app_faculty_show', {id: 11}) }}">Fakultas Hukum</a>
+                        <a class="dropdown-item" href="{{ path('app_faculty_show', {id: 7}) }}">Fakultas Teknik</a>
+                        <a class="dropdown-item" href="{{ path('app_faculty_show', {id: 9}) }}">Fakultas Kedokteran</a>
+                        <a class="dropdown-item" href="{{ path('app_faculty_show', {id: 10}) }}">Fakultas Kesehatan Masyarakat</a>
+                        <a class="dropdown-item" href="{{ path('app_faculty_show', {id: 12}) }}">Fakultas Farmasi</a>
+                        <a class="dropdown-item" href="{{ path('app_faculty_show', {id: 13}) }}">Fakultas Ilmu Budaya</a>
+                        <a class="dropdown-item" href="{{ path('app_faculty_show', {id: 14}) }}">Fakultas Ilmu Komputer dan Teknologi Informasi</a>
+{#                        <div class="dropdown-divider"></div>#}
+{#                        <a class="dropdown-item" href="#">Something else here</a>#}
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="{{ path('app_main_journals') }}" tabindex="-1">Publikasi</a>
+                </li>
+            </ul>
+
+
+
+
+            {% include 'themes/atlantis/component/right-navigation.html.twig' %}
+        </div>
+    </nav>
+    <!-- End Navbar -->
+</div>

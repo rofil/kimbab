@@ -1,0 +1,5 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+    <a href="{{ research_path ~ "/" ~object.document }}"><i class="fa fa-download"></i></a>
+{% endblock %}

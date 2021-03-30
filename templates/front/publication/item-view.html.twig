@@ -1,0 +1,20 @@
+{% extends "themes/atlantis/master.html.twig" %}
+
+{% block layout %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+{#                    {% if type == "journal" %}#}
+                        {% include 'front/publication/view-' ~ type ~'.html.twig' with {item : item} %}
+{#                    {% endif %}#}
+
+                </div>
+            </div>
+            <div class="col-md-4">
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

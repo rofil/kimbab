@@ -1,0 +1,38 @@
+{% extends "front/faculty/show.html.twig" %}
+
+{% block content %}
+    {{ parent() }}
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title pull-left">
+                Hak Kekayaan Intelektual
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th width="30">#</th>
+                    <th>Judul</th>
+                    <th>Tahun</th>
+                    <th>Inventor</th>
+                    <th>Kategori</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ip in data %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="{{ path('object_show', {id: ip.id, type: "intellectual-property"}) }}">{{ ip.name }}</a></td>
+                        <td>{{ ip.year }}</td>
+                        <td>{% include 'front/lecturer/people-names.html.twig' with {people: ip.intellectualPropertyLecturers } %}</td>
+                        <td>{{ ip.category }}</td>
+                        {#            <td>{% include 'front/field/level.html.twig' with {level:ip.level} %}</td>#}
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

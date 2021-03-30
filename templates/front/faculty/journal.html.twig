@@ -1,0 +1,82 @@
+{% extends "front/faculty/show.html.twig" %}
+
+{% block content %}
+    {{ parent() }}
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title pull-left">
+                Publikasi
+            </div>
+            {% set links = [
+                {label: "Journal", url: "?type=journal", type: "journal"},
+                {label: "Konferensi", url: "?type=conference", type: "conference"},
+                {label: "Buku", url: "?type=book", type: "book"},
+            ] %}
+            <ul class="nav nav-pills nav-secondary nav-pills-no-bd mb-3 pull-right">
+                {% for link in links %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if link.type == type %}active{% endif %}" href="?type={{ link.type }}" aria-selected="true">{{ link.label }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="card-body">
+            <table class="table">
+
+                <tbody>
+                {% for item in data %}
+                    {% if type == 'journal' %}
+                        <tr>
+                            <td style="font-family: Gafata; font-size: 14px; ">
+                                <div style="padding-top: 20px;padding-bottom: 20px;">
+                                    <a  href="{{ path('object_show', {id: item.id, type: "journal"}) }}" style="font-family: Gafata; font-size: 16px; color: #0b2e13; font-weight: bold">{{ item.title }}</a>
+                                    <div>
+                                        {% include 'front/lecturer/people-names.html.twig' with {people: item.journalLecturers} %}
+                                    </div>
+                                    <div>
+                                        {{ item.nameOfJournal }} | Vol: {{ item.volume }} | No: {{ item.number }} | {{ item.year }} | {% include 'front/field/level.html.twig' with{level : item.level} %}
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                    {% if type == 'conference' %}
+                        <tr>
+                            <td style="font-family: Gafata; font-size: 14px; ">
+                                <div style="padding-top: 20px;padding-bottom: 20px;">
+                                    <a  href="{{ path('object_show', {id: item.id, type: type}) }}" style="font-family: Gafata; font-size: 16px; color: #0b2e13; font-weight: bold">{{ item.title }}</a>
+                                    <div>
+                                        {% include 'front/lecturer/people-names.html.twig' with {people: item.conferenceLecturers} %}
+                                    </div>
+                                    <div>
+                                        {{ item.nameOfConference }} | {{ item.year }} | {% include 'front/field/level.html.twig' with{level : item.level} %}
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if type == 'book' %}
+                        <tr>
+                            <td style="font-family: Gafata; font-size: 14px; ">
+                                <div style="padding-top: 20px;padding-bottom: 20px;">
+                                    <a  href="{{ path('object_show', {id: item.id, type: type}) }}" style="font-family: Gafata; font-size: 16px; color: #0b2e13; font-weight: bold">{{ item.title }}</a>
+                                    <div>
+                                        {% include 'front/lecturer/people-names.html.twig' with {people: item.bookLecturers} %}
+                                    </div>
+                                    <div>
+                                        {{ item.publisher }} | {{ item.year }} | ISBN: {{ item.isbn }}
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

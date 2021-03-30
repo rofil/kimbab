@@ -1,0 +1,17 @@
+twig:
+    globals:
+        photo_dir: "%photo_path%"
+        photo_path: "%photo_path%"
+        additional_output_path: "%additional_output_path%"
+        conference_path: "%conference_path%"
+        journal_path: "%journal_path%"
+        cs_path: "%cs_path%"
+        book_path: "%book_path%"
+        ip_path: "%ip_path%"
+        research_path: "%research_path%"
+
+    default_path: '%kernel.project_dir%/templates'
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'

@@ -1,0 +1,188 @@
+{% extends "front/faculty/show.html.twig" %}
+
+{% block content %}
+    {{ parent() }}
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <h5 class="card-header text-center">Overview</h5>
+                {#                <div class="card-header">#}
+                {#                    <div class="card-title">Pie Chart</div>#}
+                {#                </div>#}
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th>Uraian</th>
+                            <th>Jumlah</th>
+                        </tr>
+                        <tr>
+                            <td>Dosen</td>
+                            <td>{{ dosen_count }}</td>
+                        </tr>
+                        <tr>
+                            <td>Jurnal</td>
+                            <td>{{ journal_count }}</td>
+                        </tr><tr>
+                            <td>Konferensi</td>
+                            <td>{{ conference_count }}</td>
+                        </tr><tr>
+                            <td>Buku</td>
+                            <td>{{ book_count }}</td>
+                        </tr><tr>
+                            <td>HKI</td>
+                            <td>{{ ip_count }}</td>
+                        </tr>
+                        <tr>
+                            <td>Kontrak</td>
+                            <td>{{ contract_count }}</td>
+                        </tr><tr>
+                            <td>Pengabdian</td>
+                            <td>{{ com_count }}</td>
+                        </tr>
+                        <tr>
+                            <td>Forum Ilmiah</td>
+                            <td>{{ org_count }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <h5 class="card-header">Fungsional Dosen</h5>
+                {#                <div class="card-header">#}
+                {#                    <div class="card-title">Pie Chart</div>#}
+                {#                </div>#}
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="jafungChart" height="300px"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card">
+                <h5 class="card-header">Publikasi</h5>
+                {#                <div class="card-header">#}
+                {#                    <div class="card-title">Pie Chart</div>#}
+                {#                </div>#}
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="publikasiChart" height="300px"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block foot_scripts %}
+    <script>
+        function chart(id, chartType, label, dataPopulation) {
+            var barChart = document.getElementById(id).getContext('2d');
+            let data = null;
+            if (chartType == "bar") {
+                data = {
+                    labels: label,
+                    datasets : [{
+                        label: "Publikasi",
+                        backgroundColor: '#8ea9ff',
+                        borderColor: '#7cc6ff',
+                        data: dataPopulation,
+                    }],
+                };
+            } else if(chartType == "line") {
+                data = {
+                    labels: label,
+                    datasets : [{
+                        label: "Publikasi",
+                        borderColor: '#b0a3ff',
+                        data: dataPopulation,
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 4,
+                        pointHoverBorderWidth: 1,
+                        pointRadius: 4,
+                        backgroundColor: 'transparent',
+                        fill: true,
+                        borderWidth: 2,
+                    }],
+                };
+            }
+
+            var myBarChart = new Chart(barChart, {
+                type: chartType,
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    },
+                    legend: {
+                        position : 'bottom',
+                        labels : {
+                            fontColor: 'rgb(154, 154, 154)',
+                            fontSize: 14,
+                            usePointStyle : true,
+                            padding: 5
+                        }
+                    },
+                    pieceLabel: {
+                        // render: 'percentage',
+                        fontColor: 'white',
+                        fontSize: 10,
+                    },
+                }
+            });
+        }
+
+        function pieChart(id) {
+            var pieChart = document.getElementById(id).getContext('2d');
+
+            var myPieChart = new Chart(pieChart, {
+                type: 'pie',
+                data: {
+                    datasets: [{
+                        data: {{ functional_stat|json_encode }},
+                        backgroundColor :["#1ad6f3","#415af3","#1ba0fd", "#1d7af3","#f3545d","#fdaf4b"],
+                        borderWidth: 0
+                    }],
+                    labels: {{ functional_label|json_encode|raw }}
+                },
+                options : {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    legend: {
+                        position : 'bottom',
+                        labels : {
+                            fontColor: 'rgb(154, 154, 154)',
+                            fontSize: 11,
+                            usePointStyle : true,
+                            padding: 20
+                        }
+                    },
+                    pieceLabel: {
+                        render: 'percentage',
+                        fontColor: 'white',
+                        fontSize: 14,
+                    },
+                    tooltips: false,
+                    layout: {
+                        padding: {
+                            left: 20,
+                            right: 20,
+                            top: 20,
+                            bottom: 20
+                        }
+                    }
+                }
+            })
+        }
+        pieChart("jafungChart", "pie", {{ [2001]|json_encode }}, {{ [2001]|json_encode }});
+        chart("publikasiChart", "line", {{ yearLabel|json_encode }}, {{ yearValue|json_encode|raw }});
+    </script>
+{% endblock %}

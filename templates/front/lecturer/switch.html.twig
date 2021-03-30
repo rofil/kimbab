@@ -1,0 +1,28 @@
+
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Judul</th>
+        {#                                    <th>Authors</th>#}
+        <th>Tahun</th>
+        <th>Level</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for journal in journals %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td><a href="">{{ journal.title }}</a>
+                <div>
+                    {% include 'front/lecturer/people-names.html.twig' with {people: journal.journalLecturers, lecturer: lecturer } %}
+                </div></td>
+            {#                                        <td></td>#}
+            <td>{{ journal.year }}</td>
+            <td>{% include 'front/field/level.html.twig' with {level:journal.level} %}</td>
+        </tr>
+    {% endfor %}
+
+    </tbody>
+</table>

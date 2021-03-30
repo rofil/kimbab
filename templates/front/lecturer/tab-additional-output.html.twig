@@ -1,0 +1,23 @@
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th width="30">#</th>
+        <th>Judul</th>
+        <th>Tahun</th>
+        <th>Authors</th>
+        <th>Kategori</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for ao in aos %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td><a href="{{ path('object_show', {id: ao.id, type: "additional-output"}) }}">{{ ao.title }}</a></td>
+            <td>{{ ao.year }}</td>
+            <td>{% include 'front/lecturer/people-names.html.twig' with {people: ao.additionalOutputLecturers, lecturer: lecturer } %}</td>
+            <td>{{ ao.category }}</td>
+        </tr>
+    {% endfor %}
+
+    </tbody>
+</table>

@@ -1,0 +1,97 @@
+{% extends "themes/atlantis/two-collumn.html.twig" %}
+
+{% block content %}
+    <div class="card">
+        <h3 class="card-header">Dosen</h3>
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                {% for lecturer in lecturers %}
+                    <tr>
+                        <td width="90px" class="align-top">
+                            <div style="padding-top: 10px;padding-bottom: 10px">
+                                {% if lecturer.photo %}
+                                    <img width="100px" style="padding: 5px;border:1px solid #ccc; border-radius: 10px" src="{{ photo_path ~ '/' ~ lecturer.photo }}" alt="" class="img-responsive">
+                                {% else %}
+                                    <img width="100px" style="padding: 5px;border:1px solid #ccc; border-radius: 10px" src="{{ asset('user.png') }}" alt="" class="img-responsive">
+                                {% endif %}
+                            </div>
+
+
+
+                        </td>
+                        <td class="align-top">
+                            <div style="padding-top: 10px;padding-bottom: 10px">
+                                <div><a href="{{ path('lecturer_show', {id: lecturer.id}) }}" style="font-family: sans-serif;"><span>{{ lecturer.name }}</span></a></div>
+                                <div>NIP. {{ lecturer.nip }}</div>
+                                <div>NIDN. {{ lecturer.nidn }}</div>
+                                <div>{{ lecturer.unit.name }}</div>
+                            </div>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block rightbar %}
+    <div class="card">
+        <h5 class="card-header">Jabatan Fungsional</h5>
+        {#                <div class="card-header">#}
+        {#                    <div class="card-title">Pie Chart</div>#}
+        {#                </div>#}
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="pieChart" height="300px"></canvas>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block foot_scripts %}
+    <style>
+        table td{
+            vertical-align: top;
+        }
+    </style>
+    <script>
+        var myPieChart = new Chart(pieChart, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: {{ jafung_stat|raw }},
+                    backgroundColor :["#1d7af3","#f3545d","#fdaf4b", "#90fcff", "#A11"],
+                    borderWidth: 0
+                }],
+                labels: {{ jafung_list|raw }}
+            },
+            options : {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position : 'bottom',
+                    labels : {
+                        fontColor: 'rgb(154, 154, 154)',
+                        fontSize: 11,
+                        usePointStyle : true,
+                        padding: 5
+                    }
+                },
+                pieceLabel: {
+                    render: 'percentage',
+                    fontColor: 'white',
+                    fontSize: 14,
+                },
+
+            }
+        });
+    </script>
+
+{% endblock %}

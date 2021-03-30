@@ -1,0 +1,136 @@
+{% extends "themes/atlantis/two-collumn.html.twig" %}
+
+{% block content %}
+
+    <div class="card">
+        <h3 class="card-header">{{ lecturer.name }}</h3>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    {% if lecturer.photo %}
+                        <img width="170px" style="padding: 5px;border:1px solid #ccc; border-radius: 10px" src="{{ photo_path ~ '/' ~ lecturer.photo }}" alt="" class="img-responsive">
+                    {% else %}
+                        <img width="170px" style="padding: 5px;border:1px solid #ccc; border-radius: 10px" src="{{ asset('user.png') }}" alt="" class="img-responsive">
+                    {% endif %}
+                </div>
+                <div class="col-md-9">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th width="100">NAMA</th>
+                            <td>{{ lecturer.name }}</td>
+                        </tr>
+                        <tr>
+                            <th width="100">NIP</th>
+                            <td>{{ lecturer.nip}}</td>
+                        </tr>
+                        <tr>
+                            <th width="100">EMAIL</th>
+                            <td>{{ lecturer.email}}</td>
+                        </tr>
+                        <tr>
+                            <th width="100">BIDANG/KEPAKARAN</th>
+                            <td>{{ lecturer.expertises}}</td>
+                        </tr>
+                        <tr>
+                            <th width="100">FAKULTAS</th>
+                            <td><a target="_blank" href="{{ path("app_faculty_show", {id: lecturer.unit.id}) }}">{{ lecturer.unit}}</a></td>
+                        </tr>
+
+                    </table>
+                </div>
+
+            </div>
+            <br>
+
+            <ul class="nav nav-tabs">
+                {% for k, t in tabs %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if k == tab or (k == "publikasi" and tab in ["journal", "book", "conference"]) %}active{% endif %}" href="?tab={{ k }}">{{ t }} </a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div style="padding: 5px; border: 1px solid #dee2e6; border-color: #fff #dee2e6  #dee2e6 #dee2e6">
+                {% if tab in ["journal", "book", "conference"]  %}
+{#                    {% set tab = "publikasi" %}#}
+                    {% include 'front/lecturer/tab-publikasi.html.twig' %}
+                {% else %}
+                    {% include 'front/lecturer/tab-' ~  tab ~'.html.twig' %}
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block rightbar %}
+    <div class="card">
+        <h5 class="card-header">3 Year Publications</h5>
+        {#                <div class="card-header">#}
+        {#                    <div class="card-title">Pie Chart</div>#}
+        {#                </div>#}
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="pieChart" height="300px"></canvas>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block foot_scripts %}
+    <style>
+        table td{
+            vertical-align: top;
+        }
+    </style>
+    <script>
+        var myPieChart = new Chart(pieChart, {
+            type: 'bar',
+
+            data: {
+                label: "Publikasi",
+                datasets: [{
+                    label: "Publikasi",
+                    data: {{ pubs_stat['years_pub_stat']|json_encode }},
+                    backgroundColor :["#1d7af3","#f3545d","#fdaf4b", "#90fcff", "#A11"],
+                    borderWidth: 0
+                }],
+                labels: {{ pubs_stat['years_pub']|json_encode }}
+            },
+            options : {
+                label: "Publikasi",
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position : 'bottom',
+                    labels : {
+                        fontColor: 'rgb(154, 154, 154)',
+                        fontSize: 11,
+                        usePointStyle : true,
+                        padding: 5
+                    }
+                },
+                pieceLabel: {
+                    render: 'percentage',
+                    fontColor: 'white',
+                    fontSize: 14,
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+                            stepSize: 1,
+                        }
+                    }]
+                },
+
+            }
+        });
+    </script>
+
+{% endblock %}

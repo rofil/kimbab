@@ -1,0 +1,199 @@
+{% extends "themes/atlantis/master.html.twig" %}
+
+{% block layout %}
+    {% include 'front-page/summary-number.html.twig' %}
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <h5 class="card-header">Publikasi Fakultas</h5>
+                <div class="card-body">
+                    <div id="chart-container-bar-chart">
+                        <canvas height="300px" id="barChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card">
+                <h5 class="card-header">Publikasi Universitas Mulawarman</h5>
+                <div class="card-body">
+                    <div id="chart-container-bar-chart2">
+                        <canvas height="300px" id="barChart2"></canvas>
+                    </div>
+                </div>
+            </div>
+
+{#            <div class="card card-primary">#}
+{#                <div class="card-header">#}
+{#                    <div class="card-title">Daily Sales</div>#}
+{#                    <div class="card-category">March 25 - April 02</div>#}
+{#                </div>#}
+{#                <div class="card-body pb-0">#}
+{#                    <div class="mb-4 mt-2">#}
+{#                        <h1>$4,578.58</h1>#}
+{#                    </div>#}
+{#                    <div class="pull-in"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>#}
+{#                        <canvas id="dailySalesChart" width="281" height="150" class="chartjs-render-monitor" style="display: block; width: 281px; height: 150px;"></canvas>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <h5 class="card-header">Hak Kekayaan Intelektual</h5>
+                <div class="card-body">
+                    <div id="chart-container-bar-chart">
+                        <canvas height="300px" id="hki_chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <h5 class="card-header">Jabatan Fungsional</h5>
+{#                <div class="card-header">#}
+{#                    <div class="card-title">Pie Chart</div>#}
+{#                </div>#}
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="pieChart" height="300px"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <h5 class="card-header">Buku</h5>
+                <div class="card-body">
+                    <div id="chart-container-bar-chart">
+                        <canvas height="300px" id="book_chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+{% endblock %}
+
+{% block foot_scripts %}
+    <script>
+
+        function chart(id, chartType, label, dataPopulation) {
+            var barChart = document.getElementById(id).getContext('2d');
+            let data = null;
+            if (chartType == "bar") {
+                data = {
+                    labels: label,
+                    datasets : [{
+                        label: "Publikasi",
+                        backgroundColor: '#255fff',
+                        borderColor: '#7cc6ff',
+                        data: dataPopulation,
+                    }],
+                };
+            } else if(chartType == "line") {
+                data = {
+                    labels: label,
+                    datasets : [{
+                        label: "Publikasi",
+                        borderColor: '#b0a3ff',
+                        data: dataPopulation,
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 4,
+                        pointHoverBorderWidth: 1,
+                        pointRadius: 4,
+                        backgroundColor: 'transparent',
+                        fill: true,
+                        borderWidth: 2,
+                    }],
+                };
+            }
+
+            var myBarChart = new Chart(barChart, {
+                type: chartType,
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true,
+                                stepSize: 1,
+                            }
+                        }]
+                    },
+                    legend: {
+                        position : 'bottom',
+                        labels : {
+                            fontColor: 'rgb(154, 154, 154)',
+                            fontSize: 14,
+                            usePointStyle : true,
+                            padding: 5
+                        }
+                    },
+                    pieceLabel: {
+                        // render: 'percentage',
+                        fontColor: 'white',
+                        fontSize: 10,
+                    },
+                }
+            });
+        }
+
+        // Pie
+
+        var myPieChart = new Chart(pieChart, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: {{ jafung_stat|raw }},
+                    backgroundColor :["#1d7af3","#f3545d","#fdaf4b", "#90fcff", "#A11"],
+                    borderWidth: 0
+                }],
+                labels: {{ jafung_list|raw }}
+            },
+            options : {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position : 'bottom',
+                    labels : {
+                        fontColor: 'rgb(154, 154, 154)',
+                        fontSize: 11,
+                        usePointStyle : true,
+                        padding: 5
+                    }
+                },
+                pieceLabel: {
+                    render: 'percentage',
+                    fontColor: 'white',
+                    fontSize: 14,
+                },
+
+            }
+        });
+
+
+        chart("barChart", "bar", {{ faculties|raw }}, {{ journal|raw }});
+        chart("barChart2", 'line', {{ year|raw }}, {{ year_pub|raw }});
+        chart("hki_chart", 'bar', {{ faculties|raw }}, {{ intellectual_properties|raw }});
+        chart("book_chart", 'bar', {{ faculties|raw }}, {{ intellectual_properties|raw }});
+        <!-- mulai -->
+    </script>
+
+{% endblock %}

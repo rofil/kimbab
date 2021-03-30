@@ -1,0 +1,14 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[user]
+	email = rofilde@gmail.com
+	name = Rofilde Hasudungan
+[remote "dev"]
+	url = rofilde@159.89.93.182:git/simple.git
+	fetch = +refs/heads/*:refs/remotes/dev/*
+[remote "origin"]
+	url = git@github.com:rofil/kimbab.git
+	fetch = +refs/heads/*:refs/remotes/origin/*

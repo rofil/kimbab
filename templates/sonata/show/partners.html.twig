@@ -1,0 +1,23 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th valign="middle">#</th>
+        <th valign="middle">Nama</th>
+        <th valign="middle">Jenis Usaha</th>
+        <th class="text-center">Peningkatan<br>Profit</th>
+        <th class="text-center">Dana </br>Pendamping</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for partner in object.communityServicePartners %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ partner.name }}</td>
+            <td>{{ partner.businessEntity}}</td>
+            <td class="text-right">{{ partner.increaseInProfit|number_format }}</td>
+            <td class="text-right">{{ partner.fundingProvision|number_format }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+
+</table>

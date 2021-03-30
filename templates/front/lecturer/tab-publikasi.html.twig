@@ -1,0 +1,21 @@
+
+{% set sub_tabs = [
+    {tab: "journal", label: "Jurnal"},
+    {tab: "conference", label: "Konferensi"},
+    {tab: "book", label: "Buku"},
+] %}
+
+{#{% if tab == "penelitian" %}#}
+{#    {% set tab = "journal" %}#}
+{#{% endif %}#}
+
+<ul class="nav nav-pills nav-secondary nav-pills-no-bd mb-3 pull-right">
+    {% for sub_tab in sub_tabs %}
+        <li class="nav-item">
+            <a class="nav-link {% if tab == sub_tab.tab %}active{% endif %}" href="?tab={{ sub_tab.tab }}" aria-selected="true">{{ sub_tab.label}}</a>
+        </li>
+    {% endfor %}
+</ul>
+
+
+{% include 'front/lecturer/tab-' ~ tab ~'.html.twig' %}

@@ -1,0 +1,26 @@
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th width="30">#</th>
+        <th>Judul</th>
+        <th>Tahun</th>
+        <th>Tim Peneliti</th>
+        <th>Sumber Pendanaan</th>
+        <th>Pendanaan</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for research in researches %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ research.title }}</td>
+            <td>{{ research.year }}</td>
+            <td>{% include 'front/lecturer/people-names.html.twig' with {people: research.researchLecturers, lecturer: lecturer } %}</td>
+            <td>{{ research.fundingSource }}</td>
+            <td>{{ research.funding|number_format }}</td>
+
+        </tr>
+    {% endfor %}
+
+    </tbody>
+</table>

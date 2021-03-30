@@ -1,0 +1,478 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: 'en'
+    photo_path: '/uploads/photo'
+    book_path: '/uploads/books'
+    additional_output_path: '/uploads/additional-output'
+    conference_path: '/uploads/conference'
+    journal_path: '/uploads/journal'
+    cs_path: '/uploads/community-service'
+    ip_path: '/uploads/intellect-property-right'
+    research_path: "/uploads/research"
+
+    document_dir: '%kernel.project_dir%/public/uploads/documents'
+    photo_dir: '%kernel.project_dir%/public%photo_path%'
+    book_proof_dir: '%kernel.project_dir%/public/uploads/books'
+    additional_output_dir: '%kernel.project_dir%/public%additional_output_path%'
+    conference_dir: '%kernel.project_dir%/public%conference_path%'
+    journal_dir: '%kernel.project_dir%/public%journal_path%'
+    cs_dir: '%kernel.project_dir%/public%cs_path%'
+    ip_dir: '%kernel.project_dir%/public%ip_path%'
+    research_dir: '%kernel.project_dir%/public%research_path%'
+
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+    
+
+         
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+    admin.information:
+        class: App\Admin\InformationAdmin
+        arguments: [~,App\Entity\Information, ~]
+        tags: 
+            - { name: sonata.admin, manager_type: orm, group: 'Informasi', label: Information }
+
+    admin.post:
+        class: App\Admin\PostAdmin
+        arguments: [~, App\Entity\Post, ~]
+        tags: 
+            - { name: sonata.admin, manager_type: orm, group: 'Informasi', label: Post }
+    
+    admin.faculty:
+        class: App\Admin\FacultyAdmin
+        arguments: [~, App\Entity\Unit, ~]
+        tags: 
+            - { name: sonata.admin, manager_type: orm, group: 'Master', label: 'Lembaga' }
+    
+    # admin.program:
+    #     class: App\Admin\ProgramAdmin
+    #     arguments: [~, App\Entity\Program, ~]
+    #     tags:
+    #         - { name: sonata.admin, manager_type: orm, label: 'Program' }
+
+    admin.program:
+        class: App\Admin\ProgramAdmin
+        arguments: [~, App\Entity\Program, App\Controller\ProgramAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: 'Master', label: Program }
+        public: true
+
+    admin.document:
+        class: App\Admin\DocumentAdmin
+        arguments: [~, App\Entity\Document, App\Controller\DocumentAdminController, '@file.uploader', '%document_dir%']
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: 'Informasi', label: Document }
+        public: true
+
+    admin.lecturer:
+        class: App\Admin\LecturerAdmin
+        arguments: [~, App\Entity\Lecturer, App\Controller\LecturerAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Master", label: "Dosen" }
+        public: true
+        calls:
+            - [setUploader, ['@file.uploader', '%photo_dir%']]
+
+    admin.people:
+        class: App\Admin\PeopleAdmin
+        arguments: [~, App\Entity\Lecturer, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Master", label: "People" }
+        public: true
+        calls:
+            - [setUploader, ['@file.uploader', '%photo_dir%']]
+
+
+    file.uploader:
+        class: App\Service\FileUploaderService
+        factory: ['App\Service\UploadFileFactory', 'createUploadFileService']
+
+    uploader:
+        class: App\Service\UploadFileFactory
+
+    uploader.ip:
+        class: App\Service\FileUploaderService
+        factory: ['App\Service\UploadFileFactory', 'createUploadFileService']
+
+    uploader.book:
+        class: App\Service\FileUploaderService
+        factory: ['App\Service\UploadFileFactory', 'createUploadFileService']
+
+    uploader.conference:
+        class: App\Service\FileUploaderService
+        factory: ['App\Service\UploadFileFactory', 'createUploadFileService']
+
+    uploader.journal:
+        class: App\Service\FileUploaderService
+        factory: ['App\Service\UploadFileFactory', 'createUploadFileService']
+
+    uploader.community_service:
+        class: App\Service\FileUploaderService
+        factory: ['App\Service\UploadFileFactory', 'createUploadFileService']
+
+    uploader.additional_output:
+        class: App\Service\FileUploaderService
+        factory: ['App\Service\UploadFileFactory', 'createUploadFileService']
+
+    uploader.research:
+      class: App\Service\FileUploaderService
+      factory: ['App\Service\UploadFileFactory', 'createUploadFileService']
+
+    admin.configuration:
+        class: App\Admin\ConfigurationAdmin
+        arguments: [~, App\Entity\Configuration, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Master", label: Configuration }
+        public: true
+
+    admin.roles:
+        class: App\Admin\RolesAdmin
+        arguments: [~, App\Entity\Roles, App\Controller\RolesAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Security", label: Roles }
+        public: true
+
+
+    admin.user:
+        class: App\Admin\UserAdmin
+        arguments: [~, App\Entity\User, App\Controller\UserAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Security", label: User }
+        public: true
+
+    admin.year:
+        class: App\Admin\YearAdmin
+        arguments: [~, App\Entity\Year, App\Controller\YearAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Master", label: Year }
+        public: true
+
+    admin.intellectual_category:
+        class: App\Admin\IntellectualCategoryAdmin
+        arguments: [~, App\Entity\IntellectualCategory, App\Controller\IntellectualCategoryAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Master", label: "Jenis HKI" }
+        public: true
+
+    admin.intellectual_property:
+        class: App\Admin\IntellectualPropertyAdmin
+        arguments: [~, App\Entity\IntellectualProperty, App\Controller\IntellectualPropertyAdminController, '@current_lecturer']
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: "HKI" }
+        public: true
+        calls:
+            - ["setIpRepository", ["@ip.repository"]]
+            - ['setUploaderService', ["@uploader.ip", "%ip_dir%"]]
+                
+    ip.repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - App\Entity\IntellectualProperty
+
+    current_lecturer:
+        class: App\Service\LecturerProfile
+
+    admin.intellectual_property_lecturer:
+        class: App\Admin\IntellectualPropertyLecturerAdmin
+        arguments: [~, App\Entity\IntellectualPropertyLecturer, App\Controller\IntellectualPropertyLecturerAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: 'Publikasi', label: IntellectualPropertyLecturer, show_in_dashboard: false }
+        public: true
+
+    admin.research:
+        class: App\Admin\ResearchAdmin
+        arguments: [~, App\Entity\Research, App\Controller\ResearchAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Research", label: Research }
+        public: true
+        calls:
+            - [setUploader, ['@uploader.research', '%research_dir%']]
+
+#    admin.book:
+#        class: App\Admin\BookAdmin
+#        arguments: [~, App\Entity\Book, App\Controller\BookAdminController]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: admin, label: "Buku" }
+#        public: true
+#        calls:
+#            - ["setUploader", ["@uploader.book", '%book_proof_dir%']]
+
+    admin.book_lecturer:
+        class: App\Admin\BookLecturerAdmin
+        arguments: [~, App\Entity\BookLecturer, App\Controller\BookLecturerAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: BookLecturer, show_in_dashboard: false }
+        public: true
+
+    admin.book_category:
+        class: App\Admin\BookCategoryAdmin
+        arguments: [~, App\Entity\BookCategory, App\Controller\BookCategoryAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Master", label: "Kategori Buku" }
+        public: true
+
+    admin.community_service:
+        class: App\Admin\CommunityServiceAdmin
+        arguments: [~, App\Entity\CommunityService, App\Controller\CommunityServiceAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Community Service", label: "Pengabdian Masyarakat" }
+        public: true
+        calls:
+            - ["setUploaderService", ['@uploader.community_service','%cs_dir%']]
+
+    admin.community_service_partner:
+        class: App\Admin\CommunityServicePartnerAdmin
+        arguments: [~, App\Entity\CommunityServicePartner, App\Controller\CommunityServicePartnerAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: CommunityServicePartner, show_in_dashboard: false }
+        public: true
+
+    admin.community_service_lecturer:
+        class: App\Admin\CommunityServiceLecturerAdmin
+        arguments: [~, App\Entity\CommunityServiceLecturer, App\Controller\CommunityServiceLecturerAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: CommunityServiceLecturer, show_in_dashboard: false }
+        public: true
+
+    admin.journal:
+        class: App\Admin\JournalAdmin
+        arguments: [~, App\Entity\Journal, App\Controller\JournalAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Journal }
+        public: true
+        calls:
+            - ["setUploaderService", ["@uploader.journal", "%journal_dir%"]]
+
+
+    admin.journal_lecturer:
+        class: App\Admin\JournalLecturerAdmin
+        arguments: [~, App\Entity\JournalLecturer, App\Controller\JournalLecturerAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: "Journal Lecturer", show_in_dashboard: false }
+        public: true
+
+    admin.app_conference:
+        class: App\Admin\AppConferenceAdmin
+        arguments: [~, App\Entity\Conference, App\Controller\AppConferenceAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Conference }
+        public: true
+        calls:
+            - [ "setUploaderService", ["@uploader.conference", "%conference_dir%"] ]
+#        calls:
+#            - [ setTemplate, [list, money.html.twig]]
+#        calls:
+#            -   method: "setTemplates"
+#                    arguments:
+#                        - "money.html.twig"
+#                        - "@SonataAdmin/CRUD/base_list_flat_field.html.twig"
+
+    admin.conference_lecturer:
+        class: App\Admin\ConferenceLecturerAdmin
+        arguments: [~, App\Entity\ConferenceLecturer, App\Controller\ConferenceLecturerAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: ConferenceLecturer, show_in_dashboard: false  }
+        public: true
+
+
+    admin.additional_output_category:
+        class: App\Admin\AdditionalOutputCategoryAdmin
+        arguments: [~, App\Entity\AdditionalOutputCategory, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Master", label: AdditionalOutputCategory }
+        public: true
+
+    admin.additional_output_lecturer:
+        class: App\Admin\AdditionalOutputLecturerAdmin
+        arguments: [~, App\Entity\AdditionalOutputLecturer, App\Controller\AdditionalOutputLecturerAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: AdditionalOutputLecturer, show_in_dashboard: false  }
+        public: true
+
+    app.security.handler.voter:
+        class: App\Security\VoterSecurityHandler
+        arguments: [ '@security.authorization_checker', ['ROLE_SUPER_ADMIN'] ]
+
+    first.block:
+        class: App\BLock\FirstBlock
+        arguments:
+            - ~
+            - '@templating.engine.twig'
+        tags:
+            - { name: sonata.block }
+
+    user_block:
+        class: App\BLock\FirstBlock
+        arguments:
+            - ~
+            - '@templating.engine.twig'
+        tags:
+            - { name: sonata.block }
+
+    lecturer.logged_in:
+        class: App\Service\LoggedInLecturer
+        public: true
+
+
+
+#####################################################################################################################
+    admin.research_book:
+        class: App\Admin\ResearchBookAdmin
+        arguments: [~, App\Entity\Book, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Research", label: "Book" }
+        public: true
+        calls:
+            - ["setUploaderService", ["@uploader.book", "%book_proof_dir%"]]
+
+    admin.research_journal:
+        class: App\Admin\ResearchJournalAdmin
+        arguments: [~, App\Entity\Journal, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Research", label: "Journal" }
+        public: true
+        calls:
+            - ["setUploaderService", ["@uploader.journal", "%journal_dir%"]]
+
+    admin.research_conference:
+        class: App\Admin\ResearchConferenceAdmin
+        arguments: [~, App\Entity\Conference, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Research", label: Conference }
+        public: true
+        calls:
+            - [ "setUploaderService", ["@uploader.conference", "%conference_dir%"] ]
+
+
+    admin.research_intellectual_property:
+        class: App\Admin\ResearchIntellectualPropertyAdmin
+        arguments: [~, App\Entity\IntellectualProperty, ~, '@current_lecturer']
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Research", label: "HKI" }
+        public: true
+        calls:
+            - ["setIpRepository", ["@ip.repository"]]
+            - ['setUploaderService', ["@uploader.ip", "%ip_dir%"]]
+
+    admin.conference_organizer:
+        class: App\Admin\ConferenceOrganizerAdmin
+        arguments: [~, App\Entity\ConferenceOrganizer, App\Controller\ConferenceOrganizerAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Research", label: ConferenceOrganizer }
+        public: true
+
+    admin.employment_contract:
+        class: App\Admin\EmploymentContractAdmin
+        arguments: [~, App\Entity\EmploymentContract, App\Controller\EmploymentContractAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Research", label: EmploymentContract }
+        public: true
+        calls:
+           - [ setTemplate, [list, kontrak.html.twig]]
+
+    admin.additional_output:
+        class: App\Admin\AdditionalOutputAdmin
+        arguments: [~, App\Entity\AdditionalOutput, App\Controller\AdditionalOutputAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Research", label: "Additional Output" }
+        public: true
+        calls:
+            - ["setUploaderService", ["@uploader.additional_output", "%additional_output_dir%"]]
+
+########################################################################################################################
+
+    admin.com_book:
+        class: App\Admin\ComBookAdmin
+        arguments: [~, App\Entity\Book, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Community Service", label: "Book" }
+        public: true
+        calls:
+            - ["setUploaderService", ["@uploader.journal", "%journal_dir%"]]
+
+    admin.com_journal:
+        class: App\Admin\ComJournalAdmin
+        arguments: [~, App\Entity\Journal, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Community Service", label: "Journal" }
+        public: true
+        calls:
+            - ["setUploaderService", ["@uploader.journal", "%journal_dir%"]]
+
+    admin.com_conference:
+        class: App\Admin\ComConferenceAdmin
+        arguments: [~, App\Entity\Conference, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Community Service", label: Conference }
+        public: true
+        calls:
+            - [ "setUploaderService", ["@uploader.conference", "%conference_dir%"] ]
+
+
+    admin.com_intellectual_property:
+        class: App\Admin\ComIntellectualPropertyAdmin
+        arguments: [~, App\Entity\IntellectualProperty, ~, '@current_lecturer']
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Community Service", label: "HKI" }
+        public: true
+        calls:
+            - ["setIpRepository", ["@ip.repository"]]
+            - ['setUploaderService', ["@uploader.ip", "%ip_dir%"]]
+
+#    admin.collaboration_lecturer:
+#        class: App\Admin\CollaborationLecturerAdmin
+#        arguments: [~, App\Entity\Lecturer, ~]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: "Master", label: "Dosen" }
+#        public: true
+#        calls:
+#            - [setUploader, ['@file.uploader', '%photo_dir%']]
+#    app.voter.conference:
+#        class: App\Voter\AppConferenceVoter
+#        public: false
+#        tags:
+#            - {name: security.voter}
+
+    app.menu_admin:
+        class: App\EventListener\MenuBuilderListener
+        arguments: ['@security.token_storage']
+        tags:
+            - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }
+
+
+#    app.menu_listener:
+#        class: App\EventListener\MenuBuilderListener
+#        tags:
+#            - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }
+#
+
+
+
+    admin.research_lecturer:
+        class: App\Admin\ResearchLecturerAdmin
+        arguments: [~, App\Entity\ResearchLecturer, App\Controller\ResearchLecturerAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: "Research Lecturer" }
+        public: true

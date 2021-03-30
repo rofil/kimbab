@@ -1,0 +1,71 @@
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+
+{% block sonata_admin_content %}
+    <div class="box box-info">
+        <div class="box-header">
+        </div>
+
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="{{ asset(photo_path ~ "/" ~ lecturer.photo) }}" alt="" class="img-responsive">
+                    <div>
+                        {{ form_start(form) }}
+                        {{ form_rest(form) }}
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>NAMA</th>
+                            <td>{{ lecturer.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>NIP</th>
+                            <td>{{ lecturer.nip }}</td>
+                        </tr>
+                        <tr>
+                            <th>NIDN</th>
+                            <td>{{ lecturer.nidn }}</td>
+                        </tr>
+                        <tr>
+                            <th>FAKULTAS</th>
+                            <td>{{ lecturer.unit }}</td>
+                        </tr>
+                        <tr>
+                            <th>AFFILIASI</th>
+                            <td>{{ lecturer.affiliation }}</td>
+                        </tr>
+                        {#                <tr>#}
+                        {#                    <th>JABATAN FUNGSIONAL</th>#}
+                        {#                    <td>{{ lecturer.functionalLevel }}</td>#}
+                        {#                </tr>#}
+                        <tr>
+                            <th>PROGRAM STUDI</th>
+                            <td>{{ lecturer.program }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>PENDIDIKAN TERAKHIR</th>
+                            <td>{{ lecturer.educationLevel }}</td>
+                        </tr>
+
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block title %}
+    Biodata
+{% endblock %}
+
+{% block navbar_title %}
+    {{ block('title') }}
+{% endblock %}

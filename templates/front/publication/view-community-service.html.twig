@@ -1,0 +1,75 @@
+{% extends "front/publication/_view.html.twig" %}
+
+{% block title %}
+    {{ item.title }}
+{% endblock %}
+
+{% block authors %}
+    {% include 'front/lecturer/people-names.html.twig' with {people: item.communityServiceLecturers} %}
+{% endblock %}
+
+{% block information %}
+{#    Sumber Pendanaan: {{ item.fundingSource }} | Level Kegiatan: {{ ("level_" ~ item.level)|trans }} | Durasi | {{ ("duration_" ~ item.duration)|trans }}#}
+{% endblock %}
+
+
+{% block body %}
+    <h3>Informasi</h3>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th width="30%">Tahun</th>
+            <td>{{ item.year }}</td>
+        </tr>
+        <tr>
+            <th>Sumber Pendanaan</th>
+            <td>{{ item.fundingSource }}</td>
+        </tr>
+        <tr>
+            <th>Dana</th>
+            <td>Rp. {{ item.funding|number_format }}</td>
+        </tr>
+        <tr>
+            <th>Tingkat</th>
+            <td>{{ ("level_" ~ item.level)|trans }}</td>
+        </tr>
+        <tr>
+            <th>Durasi Kegiatan</th>
+            <td>{{ ("duration_" ~ item.duration)|trans }}</td>
+        </tr>
+
+        <tr>
+            <th>Personel Lainnya</th>
+            <td>{{ item.numberOfStudents }} Mahasiswa, {{ item.numberOfAlumni }} Alumi, {{ item.numberOfStaff }} Staf, </td>
+        </tr>
+    </table>
+
+    <h3>Mitra</h3>
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Nama Mitra</th>
+            <th>Entitas Bisnis</th>
+            <th>Peningkatan Profit</th>
+            <th>Penyertaan Modal</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for partner in item.communityServicePartners %}
+        <tr>
+
+            <td>{{ loop.index }}</td>
+            <td>{{ partner.name }}</td>
+            <td>{{ partner.businessEntity }}</td>
+            <td class="text-right">{{ partner.increaseinProfit|number_format }}</td>
+            <td class="text-right">{{ partner.fundingProvision|number_format }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+{% endblock %}
+
+

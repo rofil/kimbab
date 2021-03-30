@@ -1,0 +1,30 @@
+{% extends "themes/atlantis/one-collumn.html.twig" %}
+
+{% block content %}
+    {% set currentPath = path(app.request.attributes.get('_route'),
+        app.request.attributes.get('_route_params')) %}
+
+    {% set links = [
+        { url: path('app_faculty_show', {id: faculty.id}), label: "Overview"},
+        { url: path('app_faculty_dosen', {faculty_id: faculty.id}), label: "Dosen"},
+        { url: path('app_faculty_publication', {faculty_id: faculty.id}), label: "Publikasi"},
+        { url: path('faculty.research', {id: faculty.id}), label: "Penelitian"},
+        { url: path('faculty.community-service', {id: faculty.id}), label: "Pengabdian"},
+        { url: path('faculty.ipr', {id: faculty.id}), label: "HKI"},
+        { url: path('faculty.additional-output', {id: faculty.id}), label: "Produk Inovatif"},
+    ] %}
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title pull-left">{{ faculty.name }}</div>
+            <ul class="nav nav-pills nav-secondary pull-right">
+                {% for link in links %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if currentPath == link.url %}active{% endif %}" href="{{ link.url }}">{{ link.label }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+{% endblock %}

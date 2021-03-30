@@ -1,0 +1,47 @@
+{% extends "front/faculty/show.html.twig" %}
+
+{% block content %}
+    {{ parent() }}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Dosen</div>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tbody>
+                        {% for lecturer in lecturers %}
+                            <tr>
+                                <td width="90px" class="align-top">
+                                    <div style="padding-top: 10px;padding-bottom: 10px">
+                                        {% if lecturer.photo %}
+                                            <img width="100px" style="padding: 5px;border:1px solid #ccc; border-radius: 10px" src="{{ photo_path ~ '/' ~ lecturer.photo }}" alt="" class="img-responsive">
+                                        {% else %}
+                                            <img width="100px" style="padding: 5px;border:1px solid #ccc; border-radius: 10px" src="{{ asset('user.png') }}" alt="" class="img-responsive">
+                                        {% endif %}
+                                    </div>
+
+
+
+                                </td>
+                                <td class="align-top">
+                                    <div style="padding-top: 10px;padding-bottom: 10px">
+                                        <div><a href="{{ path('lecturer_show', {id: lecturer.id}) }}" style="font-family: sans-serif;"><span>{{ lecturer.name }}</span></a></div>
+                                        <div>NIP. {{ lecturer.nip }}</div>
+                                        <div>NIDN. {{ lecturer.nidn }}</div>
+                                        <div>{{ lecturer.unit.name }}</div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+{% endblock %}
